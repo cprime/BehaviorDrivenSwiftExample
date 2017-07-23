@@ -1,0 +1,23 @@
+PODS:
+  - Intrepid (0.7.10):
+    - Intrepid/Core (= 0.7.10)
+  - Intrepid/Core (0.7.10):
+    - IP-UIKit-Wisdom (= 0.0.10)
+  - IP-UIKit-Wisdom (0.0.10)
+  - Nimble (7.0.1)
+  - Quick (1.1.0)
+
+DEPENDENCIES:
+  - Intrepid
+  - Nimble
+  - Quick
+
+SPEC CHECKSUMS:
+  Intrepid: 6387b01be08a8c22fa9df6f00dbce55099c1a2e8
+  IP-UIKit-Wisdom: b395a065344071b33659e5f6b918043a97c48a44
+  Nimble: 657d000e11df8aebe27cdaf9d244de7f30ed87f7
+  Quick: dafc587e21eed9f4cab3249b9f9015b0b7a7f71d
+
+PODFILE CHECKSUM: 2e62bfee8ec4e4a35b3e5b27e1e2992d32342034
+
+COCOAPODS: 1.2.1
