@@ -15,6 +15,10 @@
 		E60B9C121F252A4D00391E31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E60B9C111F252A4D00391E31 /* Assets.xcassets */; };
 		E60B9C151F252A4D00391E31 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E60B9C131F252A4D00391E31 /* LaunchScreen.storyboard */; };
 		E60B9C201F252A4D00391E31 /* BehaviorDrivenSwiftExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60B9C1F1F252A4D00391E31 /* BehaviorDrivenSwiftExampleTests.swift */; };
+		E60B9C2B1F263B1B00391E31 /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60B9C2A1F263B1B00391E31 /* MessageComposer.swift */; };
+		E60B9C391F2805F400391E31 /* MessageComposerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60B9C381F2805F400391E31 /* MessageComposerSpec.swift */; };
+		E60B9C3B1F28089C00391E31 /* MockMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60B9C3A1F28089C00391E31 /* MockMessageService.swift */; };
+		E60B9C3D1F280A3D00391E31 /* MockCloudFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60B9C3C1F280A3D00391E31 /* MockCloudFileService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		E60B9C1B1F252A4D00391E31 /* BehaviorDrivenSwiftExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BehaviorDrivenSwiftExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E60B9C1F1F252A4D00391E31 /* BehaviorDrivenSwiftExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorDrivenSwiftExampleTests.swift; sourceTree = "<group>"; };
 		E60B9C211F252A4D00391E31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E60B9C2A1F263B1B00391E31 /* MessageComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposer.swift; sourceTree = "<group>"; };
+		E60B9C381F2805F400391E31 /* MessageComposerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposerSpec.swift; sourceTree = "<group>"; };
+		E60B9C3A1F28089C00391E31 /* MockMessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMessageService.swift; sourceTree = "<group>"; };
+		E60B9C3C1F280A3D00391E31 /* MockCloudFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCloudFileService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +110,7 @@
 			children = (
 				E60B9C0A1F252A4D00391E31 /* AppDelegate.swift */,
 				E60B9C0C1F252A4D00391E31 /* ViewController.swift */,
+				E60B9C2A1F263B1B00391E31 /* MessageComposer.swift */,
 				E60B9C0E1F252A4D00391E31 /* Main.storyboard */,
 				E60B9C111F252A4D00391E31 /* Assets.xcassets */,
 				E60B9C131F252A4D00391E31 /* LaunchScreen.storyboard */,
@@ -115,6 +124,9 @@
 			children = (
 				E60B9C1F1F252A4D00391E31 /* BehaviorDrivenSwiftExampleTests.swift */,
 				E60B9C211F252A4D00391E31 /* Info.plist */,
+				E60B9C381F2805F400391E31 /* MessageComposerSpec.swift */,
+				E60B9C3A1F28089C00391E31 /* MockMessageService.swift */,
+				E60B9C3C1F280A3D00391E31 /* MockCloudFileService.swift */,
 			);
 			path = BehaviorDrivenSwiftExampleTests;
 			sourceTree = "<group>";
@@ -332,6 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E60B9C2B1F263B1B00391E31 /* MessageComposer.swift in Sources */,
 				E60B9C0D1F252A4D00391E31 /* ViewController.swift in Sources */,
 				E60B9C0B1F252A4D00391E31 /* AppDelegate.swift in Sources */,
 			);
@@ -341,7 +354,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E60B9C391F2805F400391E31 /* MessageComposerSpec.swift in Sources */,
+				E60B9C3B1F28089C00391E31 /* MockMessageService.swift in Sources */,
 				E60B9C201F252A4D00391E31 /* BehaviorDrivenSwiftExampleTests.swift in Sources */,
+				E60B9C3D1F280A3D00391E31 /* MockCloudFileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
