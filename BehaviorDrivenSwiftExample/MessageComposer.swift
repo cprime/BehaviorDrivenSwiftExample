@@ -9,30 +9,15 @@
 import Foundation
 import Intrepid
 
-class Message {
-    var identifier: String?
-    var audioURL: URL?
-}
-
-protocol MessageService {
-    func create(_ message: Message, completion: @escaping (Result<Message>) -> Void)
-}
-
-protocol CloudFileService {
-    func uploadLocalAudioFile(_ url: URL, completion: @escaping (Result<URL>) -> Void)
-}
-
 class MessageComposer {
-    let cloudService: CloudFileService
-    let messageService: MessageService
+    let apiClient: APIClient
 
-    init(cloudService: CloudFileService, messageService: MessageService) {
-        self.cloudService = cloudService
-        self.messageService = messageService
+    init(apiClient: APIClient) {
+        self.apiClient = apiClient
     }
 
     func sendTextMessage(_ message: Message, completion: @escaping (Result<Message>) -> Void) {
-        messageService.create(message, completion: { result in
+        apiClient.create(message, completion: { result in
             switch result {
             case .success(let remoteMessage):
                 completion(.success(remoteMessage))
@@ -42,12 +27,12 @@ class MessageComposer {
         })
     }
 
-    func sendVoiceMessage(_ message: Message, localURL: URL, completion: @escaping (Result<Message>) -> Void) {
-        cloudService.uploadLocalAudioFile(localURL) { result in
+    func sendVoiceMessage(_ message: Message, data: Data, completion: @escaping (Result<Message>) -> Void) {
+        apiClient.uploadFile(data) { result in
             switch result {
             case .success(let remoteURL):
                 message.audioURL = remoteURL
-                self.messageService.create(message, completion: { result in
+                self.apiClient.create(message, completion: { result in
                     switch result {
                     case .success(let remoteMessage):
                         completion(.success(remoteMessage))

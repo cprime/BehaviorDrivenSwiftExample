@@ -16,25 +16,23 @@ class MessageComposerSpec: QuickSpec {
     override func spec() {
         describe("MessageComposer") {
             var sut: MessageComposer!
-            var cloudService: MockCloudFileService!
-            var messageService: MockMessageService!
+            var apiClient: MockAPIClient!
 
             beforeEach {
-                cloudService = MockCloudFileService()
-                messageService = MockMessageService()
-                sut = MessageComposer(cloudService: cloudService, messageService: messageService)
+                apiClient = MockAPIClient()
+                sut = MessageComposer(apiClient: apiClient)
             }
 
             describe("sendTextMessage") {
                 var localMessage: Message!
                 var capturedResult: Result<Message>?
                 beforeEach {
-                    localMessage = Message()
+                    localMessage = Message(text: "Hello, World!")
                     capturedResult = nil
                 }
                 context("when uploading succeeds but sending fails") {
                     beforeEach {
-                        messageService.stubbedCreateMessageError = MessageComposerError.unknown
+                        apiClient.stubbedCreateMessageError = MockAPIClientError.postError
                         sut.sendTextMessage(localMessage, completion: { result in capturedResult = result })
                     }
                     it("should complete with a failure") {
@@ -44,9 +42,8 @@ class MessageComposerSpec: QuickSpec {
                 context("when uploading succeeds and sending succeeds") {
                     var remoteMessage: Message!
                     beforeEach {
-                        remoteMessage = Message()
-                        remoteMessage.identifier = UUID().uuidString
-                        messageService.stubbedRemoteMessage = remoteMessage
+                        remoteMessage = Message(text: "Hello, World!")
+                        apiClient.stubbedRemoteMessage = remoteMessage
                         sut.sendTextMessage(localMessage, completion: { result in capturedResult = result })
                     }
                     it("should complete with a success") {
@@ -59,18 +56,21 @@ class MessageComposerSpec: QuickSpec {
             }
 
             describe("sendVoiceMessage") {
-                let localURL = URL(string: "looks.affoa.org/local")!
+                let localData = "hello".ip_utf8Data!
                 let cloudURL = URL(string: "looks.affoa.org/cloud")!
                 var localMessage: Message!
                 var capturedResult: Result<Message>?
                 beforeEach {
-                    localMessage = Message()
+                    localMessage = Message(text: "Hello, World!")
                     capturedResult = nil
                 }
                 context("when uploading fails") {
                     beforeEach {
-                        cloudService.stubbedUploadAudioError = CloudFileServiceError.unknown
-                        sut.sendVoiceMessage(localMessage, localURL: localURL, completion: { result in capturedResult = result })
+                        apiClient.stubbedUploadAudioError = MockAPIClientError.fileError
+                        sut.sendVoiceMessage(localMessage, data: localData, completion: { result in capturedResult = result })
+                    }
+                    it ("should upload the audio data") {
+                        expect(apiClient.capturedFileData).to(equal(localData))
                     }
                     it("should complete with a failure") {
                         expect(capturedResult?.isFailure).toEventually(beTrue())
@@ -78,12 +78,15 @@ class MessageComposerSpec: QuickSpec {
                 }
                 context("when uploading succeeds but sending fails") {
                     beforeEach {
-                        cloudService.stubbedCloudFileURL = cloudURL
-                        messageService.stubbedCreateMessageError = MessageComposerError.unknown
-                        sut.sendVoiceMessage(localMessage, localURL: localURL, completion: { result in capturedResult = result })
+                        apiClient.stubbedCloudFileURL = cloudURL
+                        apiClient.stubbedCreateMessageError = MockAPIClientError.postError
+                        sut.sendVoiceMessage(localMessage, data: localData, completion: { result in capturedResult = result })
+                    }
+                    it ("should upload the audio data") {
+                        expect(apiClient.capturedFileData).to(equal(localData))
                     }
                     it("should create a message with the remote audio url") {
-                        expect(messageService.capturedCreateMessage?.audioURL).toEventually(equal(cloudURL))
+                        expect(apiClient.capturedCreateMessage?.audioURL).toEventually(equal(cloudURL))
                     }
                     it("should complete with a failure") {
                         expect(capturedResult?.isFailure).toEventually(beTrue())
@@ -92,12 +95,14 @@ class MessageComposerSpec: QuickSpec {
                 context("when uploading succeeds and sending succeeds") {
                     var remoteMessage: Message!
                     beforeEach {
-                        remoteMessage = Message()
-                        remoteMessage.identifier = UUID().uuidString
+                        remoteMessage = Message(text: "Hello, World!")
                         remoteMessage.audioURL = cloudURL
-                        cloudService.stubbedCloudFileURL = cloudURL
-                        messageService.stubbedRemoteMessage = remoteMessage
-                        sut.sendVoiceMessage(localMessage, localURL: localURL, completion: { result in capturedResult = result })
+                        apiClient.stubbedCloudFileURL = cloudURL
+                        apiClient.stubbedRemoteMessage = remoteMessage
+                        sut.sendVoiceMessage(localMessage, data: localData, completion: { result in capturedResult = result })
+                    }
+                    it ("should upload the audio data") {
+                        expect(apiClient.capturedFileData).to(equal(localData))
                     }
                     it("should complete with a success") {
                         expect(capturedResult?.isSuccess).toEventually(beTrue())

@@ -9,11 +9,12 @@
 @testable import BehaviorDrivenSwiftExample
 import Intrepid
 
-enum MessageComposerError: Error {
-    case unknown
+enum MockAPIClientError: Error {
+    case fileError
+    case postError
 }
 
-class MockMessageService: MessageService {
+class MockAPIClient: APIClient {
     var capturedCreateMessage: Message?
     var stubbedRemoteMessage: Message?
     var stubbedCreateMessageError: Error?
@@ -23,7 +24,21 @@ class MockMessageService: MessageService {
             if let error = self.stubbedCreateMessageError {
                 completion(.failure(error))
             } else {
-                completion(.success(self.stubbedRemoteMessage!))
+                completion(.success(self.stubbedRemoteMessage ?? message))
+            }
+        }
+    }
+
+    var capturedFileData: Data?
+    var stubbedCloudFileURL: URL?
+    var stubbedUploadAudioError: Error?
+    func uploadFile(_ data: Data, completion: @escaping (Result<URL>) -> Void) {
+        capturedFileData = data
+        DispatchQueue.main.async {
+            if let error = self.stubbedUploadAudioError {
+                completion(.failure(error))
+            } else {
+                completion(.success(self.stubbedCloudFileURL!))
             }
         }
     }
